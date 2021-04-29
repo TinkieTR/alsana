@@ -1,0 +1,20 @@
+const Discord = require('discord.js');
+const db = require('quick.db')
+const fynx = require('../ayarlar/bot.json')
+exports.run = async (client, message, args) => {
+  let prefix = await db.fetch(`prefix.${message.guild.id}`) || fynx.prefix   
+if (!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send(`<a:noo:750777134548516874> **Bu komutu kullanabilmek için** "\`Yönetici\`" **yetkisine sahip olmalısın.**`);
+  
+  let mesaj = args.slice(0).join(' ');
+  if(mesaj.length < 5) return message.channel.send('<a:noo:750777134548516874> **Otorol Mesaj Sistemi İçin En Az 5 Karakter Belirtebilirsin!**\n `**__Örnek__**: `q!oto-rol-msg -uye- Hoşgeldin! senle beraber -uyesayisi- Kişiyiz!`')
+  
+ message.channel.send('<a:syes1:751896954182697051> **Oto-Rol mesajı** `'+mesaj+'` **Olarak ayarlandı!**') 
+ db.set(`otoRM_${message.guild.id}`, mesaj)  
+
+  
+};
+exports.config = {
+  name: 'otorol-mesaj', 
+  aliases: ['otorolmesaj','otorol-mesaj-ayarla','otorolmesaj-ayarla', 'otorolmesajayarla']
+};
+
